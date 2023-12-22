@@ -113,4 +113,15 @@ public class NbaPlayersSteps {
         assert(mainPage.checkTeam(teamName));
         assert(!hooks.getDriver().getCurrentUrl().equals(URL));
     }
+
+    @When("click filter")
+    public void clickFilter() {
+        mainPage.clickFilter();
+
+    }
+
+    @Then("check filtered players")
+    public void checkFilteredPlayers() {
+        assert(mainPage.fgaCheck());
+    }
 }

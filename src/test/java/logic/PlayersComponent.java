@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PlayersComponent extends BasePage {
     private final String TABLE_XPATH = "//table";
@@ -39,5 +40,15 @@ public class PlayersComponent extends BasePage {
                 player.findElement(By.xpath(".//td[a[contains(@href, '/player')]]"))));
         String link = clickable.findElement(By.tagName("a")).getAttribute("href");
         this.driver.get(link);
+    }
+
+    public boolean fgaCheck(){
+        int size = this.players.stream()
+                .filter(row -> {
+                    List<WebElement> cells = row.findElements(By.tagName("td"));
+                    return cells.size() >= 2 && (!cells.get(7).getText().equals("21.8"));
+                }).toList().size();
+        if (size == 0) return true;
+        return false;
     }
 }
