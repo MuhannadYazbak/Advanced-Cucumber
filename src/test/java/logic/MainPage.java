@@ -15,11 +15,11 @@ import java.util.List;
 public class MainPage extends BasePage {
 
     private final String SEASON_DROPDOWN = "//p[contains(text(), 'Season')]//following-sibling::div//select";
-    private final String ARROW_BUTTON_PLAYERS_TEAMS = "//*[@id=\"__next\"]/div[2]/div[2]/div[3]/section[1]/div/nav/div[1]/button";
-    private final String PLAYER_TEAM_SELECTOR = "//*[@id=\"__next\"]/div[2]/div[2]/div[3]/section[1]/div/nav/div[1]/ul";
-    private final String FILTER_BUTTON = "//button[contains(@title, \"custom filter\")]";
-    private final String FILTER_BY_OPTION = "//*[@id=\"__next\"]/div[2]/div[2]/div[3]/section[2]/div/div[2]/div[2]/div[2]/div[1]/div[1]/div/select";
-    private final String FILTER_INPUT_XPATH = "//input[@placeholder=\"Value\"]";
+    private final String ARROW_BUTTON_PLAYERS_TEAMS = "//*[@id='__next']/div[2]/div[2]/div[3]/section[1]/div/nav/div[1]/button";
+    private final String PLAYER_TEAM_SELECTOR = "//*[@id='__next']/div[2]/div[2]/div[3]/section[1]/div/nav/div[1]/ul";
+    private final String FILTER_BUTTON = "//button[contains(@title, 'custom filter')]";
+    private final String FILTER_BY_OPTION = "//*[@id='__next']/div[2]/div[2]/div[3]/section[2]/div/div[2]/div[2]/div[2]/div[1]/div[1]/div/select";
+    private final String FILTER_INPUT_XPATH = "//input[@placeholder='Value']";
     private PlayersComponent playersComponent;
     private TeamsComponent teamsComponent;
     private WebElement seasonDropDown;
@@ -84,7 +84,7 @@ public class MainPage extends BasePage {
         if (teamP.isDisplayed()) return true;
         else return false;
     }
-    public void clickFilter(){
+    public void clickFilter(String option, String value){
         WebDriverWait wait = new WebDriverWait(this.driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.elementToBeClickable(filterButton));
         Actions actions = new Actions(this.driver);
@@ -93,8 +93,8 @@ public class MainPage extends BasePage {
         this.filterInput = this.driver.findElement(By.xpath(FILTER_INPUT_XPATH));
         filterSelectOption.click();
         Select select1 = new Select(filterSelectOption);
-        select1.selectByVisibleText("FGA");
-        filterInput.sendKeys("21.8");
+        select1.selectByVisibleText(option);
+        filterInput.sendKeys(value);
 
     }
     public boolean fgaCheck(){

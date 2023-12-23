@@ -19,13 +19,13 @@ public class Hooks {
         driver = browserWrapper.getDriver();
     }
 
-//    @After
-//    public void teardown() {
-//        if (driver != null) {
-//            driver.quit();
-//            driver = null; // Reset the static driver instance
-//        }
-//    }
+    @After
+    public void teardown() {
+        if (driver != null) {
+            driver.quit();
+            driver = null; // Reset the static driver instance
+        }
+    }
 
     public WebDriver getDriver() {
         return driver;

@@ -1,44 +1,9 @@
-//package steps;
-//
-//import hooks.MyHooks;
-//import io.cucumber.java.en.Given;
-//import io.cucumber.java.en.Then;
-//import io.cucumber.java.en.When;
-//import org.openqa.selenium.By;
-//import org.openqa.selenium.WebDriver;
-//import org.openqa.selenium.WebElement;
-//
-//public class NbaPlayersSteps {
-//
-//    private final WebDriver driver;
-//
-//    public NbaPlayersSteps(MyHooks hooks) {
-//        this.driver = hooks.getDriver();
-//    }
-//
-//    @Given("on nba stats page")
-//    public void onNbaStatsPage() {
-//        this.driver.get("https://www.nba.com/stats/leaders");
-//    }
-//
-//    @When("click on {string} {string}")
-//    public void clickOnPlayer(String firstName, String lastName) {
-//        WebElement playerHref = this.driver.findElement(By.xpath("//tr//td//a[text()='" + firstName + " " + lastName + "']"));
-//        playerHref.click();
-//    }
-//
-//    @Then("validate {string} {string}")
-//    public void validateFirstNameLastName(String firstName, String lastName) {
-//        WebElement firstNameP = this.driver.findElement(By.xpath("//p[text()='" + firstName + "']"));
-//        WebElement lastNameP = this.driver.findElement(By.xpath("//p[text()='" + lastName + "']"));
-//        assert (firstNameP.isDisplayed() && lastNameP.isDisplayed());
-//    }
-//}
-
 package steps;
 
 import hooks.Hooks;
 import infra.TestContext;
+import io.cucumber.datatable.DataTable;
+import io.cucumber.java.DataTableType;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -46,6 +11,10 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import logic.MainPage;
 import org.openqa.selenium.WebDriver;
+import utils.Filter;
+
+import java.util.List;
+import java.util.Map;
 
 public class NbaPlayersSteps {
 
@@ -115,9 +84,18 @@ public class NbaPlayersSteps {
     }
 
     @When("click filter")
-    public void clickFilter() {
-        mainPage.clickFilter();
+    public void clickFilter(List<Filter> filters) {
+        for (Filter filter : filters) {
+            String option = filter.getOption();
+            String value = filter.getValue();
 
+            mainPage.clickFilter(option, value);
+        }
+    }
+
+    @DataTableType
+    public Filter transform(Map<String, String> entry) {
+        return new Filter(entry.get("option"), entry.get("value"));
     }
 
     @Then("check filtered players")
